@@ -1,15 +1,14 @@
 
 {.compile: "rtfir.c".}
-{.header: "ftfir.h".}
-
+{.passl: "-lm" }
 type
-  Fur = object
-    coeff: ptr float
-    buffer: ptr float
-    taps: cuint
+  Fur* = ref object
+    coeff*: ptr float
+    buffer*: ptr float
+    taps*: cuint
 
-// Initializes FIR objects of various types
-prof initLowpass(fur: ptr Fur, taps: cuint, freq: float)
+proc initLowpass*(fur: Fur, taps: cuint, freq: float) {.importc: "RTFIR_init_lowpass".}
+proc process*(fur: Fur, sample: float): float {.importc: "RTFIR_filter"}
 
 #bool RTFIR_init_lowpass(RTFIR *Filter,const unsigned int Taps,const double Freq);
 #bool RTFIR_init_highpass(RTFIR *Filter,const unsigned int Taps,const double Freq);
