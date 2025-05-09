@@ -82,8 +82,14 @@ withJack output=out:
 Notes
 -----
 
-
-
-
-Algorithms are from the [rtfir C library](https://github.com/vfiksdal)
+* The code is very simple and was designed for low end systems, but was not not painstakingly optimized (TODO!! SMD!!!)
+* Using the filter should be pretty fast. You should use about 32 to 256 taps- any more than that and you are probably
+  better off using a frequency domain FIR filter if you can tolerate that much latency.
+* Usage note: These aren't perfect at 16-32 taps, I use them on purpose for musical quality.
+  You may be better off using IIR filters. Listen for yourself! Personally I like it because it's a digital kind of
+  distortion giving it character instead of all the analog emulation.
+* Since these just operate on individual samples, you're pretty flexible.
+* For realtime use, consider using the `arc` GC and keeping the `initFur`
+* The name was supposed to mean "Futhark Fir" and I grew attached to it even though I ended up converting the whole
+  thing into Nim instead of wrapping. Thanks, [vfiksdal](https://github.com/vfiksdal)!!!
 
