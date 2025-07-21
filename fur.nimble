@@ -4,6 +4,8 @@ author = "Carlo Capocasa"
 description = "Fur is a thin wrapper over the rtfir realtime finite impulse response library"
 license = "MIT"
 
+srcDir = "src"
+
 requires "nim >= 2.0.0"
 
 

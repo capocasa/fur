@@ -2,7 +2,7 @@ import std/[unittest, math, random, sequtils, strformat]
 import ../src/fur
 import original_fur
 
-const EPSILON = 1e-4  # Relaxed for fast sin lookup table precision
+const epsilon = 1.3e-7  # Maximum achievable processing precision with linear interpolation
 
 proc generateTestSignal(length: int, sampleRate: float = 44100.0): seq[float] =
   result = newSeq[float](length)
@@ -31,9 +31,9 @@ proc compareOutputs(orig: seq[float], opt: seq[float], name: string) =
     maxDiff = max(maxDiff, diff)
     avgDiff += diff
     
-    if diff > EPSILON:
+    if diff > epsilon:
       echo &"Output mismatch in {name} at sample {i}: orig={orig[i]}, opt={opt[i]}, diff={diff}"
-    check diff <= EPSILON
+    check diff <= epsilon
   
   avgDiff /= orig.len.float
   echo &"{name}: max_diff={maxDiff}, avg_diff={avgDiff}"
@@ -141,7 +141,7 @@ suite "Processing Comparison Tests":
     
     check abs(steadyStateOrig - 1.0) < 0.01
     check abs(steadyStateOpt - 1.0) < 0.01
-    check abs(steadyStateOrig - steadyStateOpt) < EPSILON
+    check abs(steadyStateOrig - steadyStateOpt) < epsilon
 
   test "Long sequence processing":
     let longSignal = generateTestSignal(10000)

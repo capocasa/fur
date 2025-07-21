@@ -2,15 +2,15 @@ import std/[unittest, math, sequtils, strformat]
 import ../src/fur
 import original_fur
 
-const EPSILON = 1e-4  # Relaxed for fast sin lookup table precision
+const epsilon = 1e-7  # Maximum achievable precision with linear interpolation
 
 proc compareCoeffs[T](orig: seq[float], opt: array[T, float], name: string) =
   check orig.len == opt.len
   for i in 0..<orig.len:
     let diff = abs(orig[i] - opt[i])
-    if diff > EPSILON:
+    if diff > epsilon:
       echo &"Coefficient mismatch in {name} at index {i}: orig={orig[i]}, opt={opt[i]}, diff={diff}"
-    check diff <= EPSILON
+    check diff <= epsilon
 
 suite "Coefficient Comparison Tests":
   

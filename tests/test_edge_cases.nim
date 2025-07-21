@@ -1,7 +1,7 @@
 import std/[unittest, math, sequtils]
 import ../src/fur
 
-const EPSILON = 1e-4  # Relaxed for fast sin lookup table precision
+const epsilon = 1e-6  # Better precision with optimized 2π sine table
 
 suite "Edge Case Tests":
   
@@ -50,7 +50,7 @@ suite "Edge Case Tests":
     
     # Invalid bandpass ranges
     expect AssertionDefect:
-      fur.bandpass(0.2, 0.1)  # hi < lo should fail
+      fur.bandpass(0.1, 0.2)  # hi < lo should fail
 
   test "Filter coefficient sum properties":
     var fur = initFur[64]()
@@ -115,4 +115,4 @@ suite "Edge Case Tests":
     for i in 0..<(center-1):  # Avoid out of bounds
       let leftCoeff = fur.coeff[center - 1 - i]
       let rightCoeff = fur.coeff[center + 1 + i]
-      check abs(leftCoeff - rightCoeff) < EPSILON
+      check abs(leftCoeff - rightCoeff) < epsilon
